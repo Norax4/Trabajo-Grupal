@@ -1,4 +1,6 @@
-let container = document.querySelector(".contenedor");
+let container = document.getElementsByClassName(".contenedor");
+
+import { juegos } from './array.js';
 
     window.addEventListener('load', function () {
         // Obtener los productos almacenados en localStorage
@@ -24,9 +26,9 @@ let container = document.querySelector(".contenedor");
         return ruta;
       }
       
-      function cargarJuegos(juegos) {
+      function cargarJuegos(array) {
          container.innerHTML = "";
-         juegos.forEach((juego) => {
+         array.forEach((juego) => {
              container.innerHTML += cardHTML(juego);
          });
     }

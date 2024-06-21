@@ -1,7 +1,7 @@
-import { User } from "./clases";
-import { Juego } from "./clases";
+import { User } from './clases.js';
+import { Juego } from './clases.js';
 
-export let juegos =[
+export const juegos =[
     new Juego("images/lords of the fallen.jpeg","Lords of the Fallen", 1, 1200),
     new Juego("images/sao game.jpeg","Sword Art Online", 2, 450),
     new Juego("images/forza motor.jpeg","Forza Motorsport", 3,350),
@@ -22,7 +22,7 @@ export let juegos =[
     new Juego("images/spiderman.jpeg",  "Spider Man",  19,  800),
     new Juego("images/tlou1.jpeg","The last of us",21, 450),
     new Juego("images/sims4.jpeg","The Sims 4",22, 900),
-    new Juego("images/alaskan road truckers.jpeg", "Alaskan Road Truckers", 24,400),
+    new Juego("./images/alaskan road truckers.jpeg", "Alaskan Road Truckers", 24,400),
     new Juego("images/skylines2.jpeg", "Cities Skylines II", 25, 600),
     new Juego("images/hotweels unleashed.jpeg","Hot Wheels", 27, 900),
     new Juego("images/smurfs2.jpeg", "The Smurfs 2", 28, 850),
@@ -36,7 +36,7 @@ export let juegos =[
     new Juego("images/gollum.jpeg", "Gollum", 37,  650)
     ];
 
-export let users = [
+export const users = [
     new User(0, "Ana"),
     new User(1, "Jose"),
     new User(2, "Maria")

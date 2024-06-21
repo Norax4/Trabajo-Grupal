@@ -1,7 +1,6 @@
 //script.js
-import { juegos } from "./array.js";
-import { users } from "./array.js";
-import { carritoJuegos } from "./array.js";
+import { juegos, users } from './array.js';
+
 
 let dropdownCuentas = document.getElementById("lista-personas");
 let dropdownFiltro = document.getElementById("juegos-filtro");
@@ -13,12 +12,12 @@ let dropdownFiltro = document.getElementById("juegos-filtro");
         // Si hay productos en el localStorage
         if (juegosAlmacenados.length > 0) {
           // Cargar los productos en la página
-          cargarJuegos(juegosAlmacenados)
+          cargarJuegos(juegosAlmacenados);
         } else {
           // De lo contrario, guardar los productos que tenemos en variables.js en el localStorage
-          guardarLocalStorage(juegos)
+          guardarLocalStorage(juegos);
           // Cargar los productos en la página
-          cargarJuegos(juegos)
+          cargarJuegos(juegos);
         }
     });
 
@@ -38,7 +37,7 @@ let dropdownFiltro = document.getElementById("juegos-filtro");
     }
     
     //Cards de juegos
-    let container = document.getElementById("container");
+    let container = document.getElementById("Container");
 
     function cargarJuegos(juegos) {
         container.innerHTML = "";
@@ -59,8 +58,8 @@ let dropdownFiltro = document.getElementById("juegos-filtro");
             </div>`;
     }
 
-function guardarLocalStorage(juegos) {
-    localStorage.setItem('juegos', JSON.stringify(juegos));
+function guardarLocalStorage(array) {
+    localStorage.setItem('juegos', JSON.stringify(array));
   }
 
 function obtenerLocalStorage() {
@@ -73,20 +72,31 @@ let carrito = document.getElementById('cart');
 let carritoList = document.getElementById('carrito-list');
 let carritoStorage = obtenerLocalStorage();
 
-function añadirCarrito(id) {
-    let indice = carritoStorage.findIndex(juego => juego.codigo === id);
-
-    if (indice !== -1){
-        let juego = juegos.find(indice)
-        carritoJuegos.push(juego);
+function renderCarrito(){
+    let usuario = users.find(dropdownCuentas.value);
+    carritoList.innerHTML = "";
+    for (const item of usuario.carrito){
+        carritoList.innerHTML += `<li>${item.titulo} - ${item.precio} <button onclick="eliminarDeCarrito(${item.codigo}>X</button></li>`;
     }
 }
 
-function eliminarCarrito(id) {
-    let indice = carritoStorage.findIndex(juego => juego.codigo === id);
+function añadirAlCarrito(id){
+    let game = carritoStorage.find((game) => game.codigo === id);
+    let personaSeleccionada = dropdownCuentas.value;
+    for (let user of users) {
+    if (user.id == personaSeleccionada) {
+      // Agregamos al carrito de la persona el producto
+      user.carrito.push(game);
+    }
+    }
+}
 
-    if (indice !== -1){
-        carritoJuegos.splice(indice,1);
+function eliminarDeCarrito(id){
+    let user = dropdownCuentas.value;
+    let indice = user.carrito.findIndex(juego => juego.codigo === id);
+    if (indice !== -1) {
+        user.carrito.splice(indice, 1);
+
     }
 }
 
@@ -100,7 +110,4 @@ function filtrarJuegos(){
     if (juegos.genero === dropValue){
         
     }
-    if (resultado.length !==0 ){
-        cargarJuegos(resultado)
-    }
-    }
+}
