@@ -18,16 +18,17 @@
 
             <div class="nav-icon">
                 <a href="#" id="user-btn" type="button"><i class='bx bxs-user'></i></a>
-                    <div class="personas" style="display: none;">
+                    <div id="personas" style="display: none;">
                         <label for="lista-personas">Seleccione una cuenta:</label>
                         <!-- Combo-lista de selección de personas -->
                         <select id="lista-personas"></select>
                     </div>
-                <a href="#" id="cart" type="button"><i class='bx bx-cart' ></i></a>
-                    <div id="carrito">
-                        <ul id="carrito-list">
-                            <!-- Items del Carrito -->
-                        </ul>
+                <a href="#" id="cart" type="button"><i class='bx bx-cart'></i></a>
+                    <div id="carrito" style="display: none;">
+                        <label>Carrito:</label>
+                        <p>Total de juegos: <span id="totalJuegos"></span></p>
+                        <p>Total: <span id="totalCompra"></span></p>
+                        <button id="comprar">Comprar</button>
                     </div> 
             </div>
         </header>

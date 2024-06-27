@@ -1,6 +1,5 @@
 //script.js
-import { juegos, users } from './array.js';
-
+import { juegos, users, carrito as arrayCarrito, generos } from './array.js';
 
 let dropdownCuentas = document.getElementById("lista-personas");
 let dropdownFiltro = document.getElementById("juegos-filtro");
@@ -22,6 +21,8 @@ let dropdownFiltro = document.getElementById("juegos-filtro");
     });
 
     //perfiles
+    let userBtn = document.getElementById('user-btn');
+    let divPersonas = document.getElementById('personas');
     
     cargarCuentas(users);
 
@@ -36,26 +37,34 @@ let dropdownFiltro = document.getElementById("juegos-filtro");
         return `<option value="${user.id}">${user.nombre}</option>`;
     }
     
+    userBtn.addEventListener('click', function(){
+        divPersonas.style.display = 'block';
+    })
+
     //Cards de juegos
     let container = document.getElementById("Container");
 
     function cargarJuegos(juegos) {
         container.innerHTML = "";
         juegos.forEach((juego) => {
-             container.innerHTML += cardHTML(juego);
+            let divCard = document.createElement('div');
+            divCard.className = 'juego-card';
+            divCard.innerHTML += `<img src="${juego.imagen}" class="juego"></img>`;
+
+            let divBody = document.createElement('div');
+            divBody.className = 'card-body';
+            divBody.innerHTML += `<p class="titulo">${juego.titulo}</p>
+                                <p class="precio">$${juego.precio}</p>`;
+            
+            let addBtn = document.createElement('button');
+            addBtn.className = 'compraBtn';
+            addBtn.textContent = 'Añadir al Carrito';
+            addBtn.onclick = () => añadirAlCarrito(juego.codigo);
+
+            divBody.appendChild(addBtn);
+            divCard.appendChild(divBody);
+            container.appendChild(divCard);
         });
-    }
-         
-    function cardHTML(juego) {
-        return `
-            <div class="juego-card">
-                <img src="${juego.imagen}" class="juego"></img>
-                <div class="card-body">
-                    <p class="titulo">${juego.titulo}</p>
-                    <p class="precio">$${juego.precio}</p>
-                    <div class="comprar"><button onclick="añadirCarrito(${juego.codigo})">Comprar</button></div>
-                </div>
-            </div>`;
     }
 
 function guardarLocalStorage(array) {
@@ -69,47 +78,65 @@ function obtenerLocalStorage() {
 
 //Carrito
 let carrito = document.getElementById('cart');
-let carritoList = document.getElementById('carrito-list');
+let carritoDiv = document.getElementById('carrito');
 let carritoStorage = obtenerLocalStorage();
 
-carrito.addEventListener('click', renderCarrito());
-
-function renderCarrito(){
-    let usuario = users.find(dropdownCuentas.value);
-    carritoList.innerHTML = "";
-    for (const item of usuario.carrito){
-        carritoList.innerHTML += `<li>${item.titulo} - ${item.precio} <button onclick="eliminarDeCarrito(${item.codigo}>X</button></li>`;
-    }
-}
+carrito.addEventListener('click', function(){
+    carritoDiv.style.display = 'block';
+});
 
 function añadirAlCarrito(id){
     let game = carritoStorage.find((game) => game.codigo === id);
-    let personaSeleccionada = dropdownCuentas.value;
-    for (let user of users) {
-        if (user.id == personaSeleccionada) {
-        // Agregamos al carrito de la persona el producto
-        user.carrito.push(game);
-        }
+    arrayCarrito.push(game);
+    let totalJuegos = document.getElementById('totalJuegos');
+    totalJuegos.innerHTML = arrayCarrito.length;
+
+    let totalCompra = document.getElementById('totalCompra');
+    let suma = 0;
+    arrayCarrito.forEach(juego =>{
+        suma += juego.precio;
+    });
+
+    if (arrayCarrito.length > 3){
+        suma *= 0.85;
     }
+    totalCompra.textContent = suma;
 }
 
-function eliminarDeCarrito(id){
-    let user = dropdownCuentas.value;
-    let indice = user.carrito.findIndex(juego => juego.codigo === id);
-        if (indice !== -1) {
-            user.carrito.splice(indice, 1);
+let btnComprar = document.getElementById('comprar');
 
-        }
-}
-
+btnComprar.addEventListener('click', function(){
+    let juegos = obtenerLocalStorage();
+    arrayCarrito.forEach((juego) =>{
+        let indice = juegos.findIndex((j) => j.codigo === juego.codigo);
+        juegos[indice].cantidadVendida += 1;
+    });
+    guardarLocalStorage(juegos);
+    arrayCarrito.splice(0, arrayCarrito.length);
+    alert('Gracias por su compra');
+    let totalJuegos = document.getElementById('totalJuegos');
+    let totalCompra = document.getElementById('totalCompra');
+    totalJuegos.innerHTML = '0';
+    totalCompra.innerHTML = '0';
+})
 
 
 // Función para filtrar productos por nombre
 
+function cargarFiltro(array){
+    dropdownFiltro.innerHTML = '';
+    generos.forEach((genero) =>{
+        dropdownFiltro.innerHTML += `<option value="${genero}">${genero}</option>`;
+    })
+};
 
 function filtrarJuegos(){
     let dropValue = dropdownFiltro.value;
-    if (juegos.genero === dropValue){
-        
-    }
+    let juegosFiltrados = [];
+    for (const juego of juegos){
+        if (juego.genero === dropValue){
+            juegosFiltrados.push(juego);
+        }
+    };
+    cargarJuegos(juegosFiltrados);
 }

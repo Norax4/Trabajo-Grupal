@@ -1,4 +1,4 @@
-import { juegos } from "./array.js";
+import { juegos, generos } from "./array.js";
 import { Juego } from "./clases.js";
 
 let container = document.getElementById('contenedor');
@@ -117,14 +117,14 @@ let generos = document.getElementById('genero');
         document.getElementById('titulo').value = juego.titulo;
         document.getElementById('precio').value = juego.precio;
         document.getElementById('genero').value = juego.genero;
-        document.getElementById('Formulario').dataset.codigoJuego = codigo; // Establecer el código del producto
+        document.getElementById('Formulario').dataset.codigoJuego = juego.codigo; // Establecer el código del producto
       }
     }
 
     function nuevoCodigo(){
       let juegos = JSON.parse(localStorage.getItem('juegos' || '[]'));
-      let ids = juegos.map((juego) => juego.id);
-      return Math.max(...ids) + 1;
+      let codigos = juegos.map((juego) => juego.codigo);
+      return Math.max(...codigos) + 1;
     };
 
 // Evento submit para el formulario
@@ -137,14 +137,25 @@ document.getElementById('Formulario').addEventListener("submit", function(event)
   const titulo = document.querySelector('#titulo').value.trim();
   const precio = document.querySelector('#precio').value.trim();
 //Obtener el código del producto desde el atributo 'data-codigo-producto' del formulario.
-  const codigo = this.dataset.codigoJuego;
+  const codigo = parseInt(this.dataset.codigoJuego);
 
-let juego = new Juego(imagen, titulo, codigo, precio);
+  let juego = new Juego(imagen, titulo, codigo, precio);
 
-
-//limpiar el formulario
-this.reset();
-//eliminar el codigoJuego del dataset
-delete this.dataset.codigoJuego;
+  if (this.dataset.codigoJuego !== undefined){
+    let indice = juegos.findIndex((j) => j.codigo === juego.codigo);
+    console.log(indice);
+    console.log(juegos);
+    console.log(juego);
+    juegos[indice] = juego;
+  }else{
+    juego.codigo = nuevoCodigo();
+    juegos.push(juego);
+  }
+  guardarLocalStorage(juegos);
+  actualizarJuegos();
+  //limpiar el formulario
+  this.reset();
+  //eliminar el codigoJuego del dataset
+  delete this.dataset.codigoJuego;
 });
 

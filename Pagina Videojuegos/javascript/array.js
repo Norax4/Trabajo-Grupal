@@ -1,6 +1,8 @@
 import { User } from './clases.js';
 import { Juego } from './clases.js';
 
+export let carrito = [];
+
 export const juegos =[
     new Juego("./images/lords of the fallen.jpeg","Lords of the Fallen", 1, 1200, "RPG"),
     new Juego("images/sao game.jpeg","Sword Art Online", 2, 450, "RPG"),
@@ -42,4 +44,4 @@ export const users = [
     new User(2, "Maria")
     ];
 
-const generos = ["Racing", "Action", "Simulation", "Adventure", "Puzzle game", "Horror", "Sports", "RPG"];
+export const generos = ["Racing", "Action", "Simulation", "Adventure", "Puzzle game", "Horror", "Sports", "RPG"];

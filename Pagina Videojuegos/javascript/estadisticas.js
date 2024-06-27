@@ -1,5 +1,6 @@
 //para obtener el contenedor donde se mostrara la tabla
 let container = document.querySelector('.container');
+let totalIngresos = document.getElementById('totalIngresos');
 
 // Función para obtener los juegos desde localStorage
 function obtenerLocalStorage() {
@@ -14,6 +15,10 @@ if (container) {
 } else {
   console.error('No se encontró el contenedor con la clase .container');
 }
+
+//Tambièn se puede hacer "let suma = juegosLocalStorage.reduce((suma (acumulador), juego(iterador))) => suma + juego.cantidadVendida * juego.precio, 0)"
+let suma = juegosLocalStorage.reduce((suma, juego) => suma + juego.cantidadVendida * juego.precio, 0);
+totalIngresos.innerHTML = `$${suma}`;
 
 // Función para generar la tabla HTML de juegos
 function generarTablaJuegos(juegos) {

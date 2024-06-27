@@ -1,10 +1,11 @@
 export class Juego {
-    constructor(imagen,titulo,codigo,precio,genero){
+    constructor(imagen,titulo,codigo,precio,genero,cantidadVendida){
         this.imagen = imagen;
         this.titulo = titulo;
         this.codigo = codigo;
         this.precio = precio;
         this.genero = genero;
+        this.cantidadVendida = cantidadVendida || 0;
     }
 }
 
