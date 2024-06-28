@@ -123,12 +123,18 @@ btnComprar.addEventListener('click', function(){
 
 // Función para filtrar productos por nombre
 
-function cargarFiltro(array){
-    dropdownFiltro.innerHTML = '';
-    generos.forEach((genero) =>{
-        dropdownFiltro.innerHTML += `<option value="${genero}">${genero}</option>`;
-    })
-};
+cargarGeneros(generos);
+
+    function cargarGeneros(array){
+        dropdownFiltro.innerHTML = `<option value="">Todos los Juegos</option>`;
+        for (const item of array){
+            dropdownFiltro.innerHTML += retornarGenerosHTML(item);
+        }
+    }
+
+    function retornarGenerosHTML(item) {
+        return `<option value="${item}">${item}</option>`;
+    }
 
 function filtrarJuegos(){
     let dropValue = dropdownFiltro.value;

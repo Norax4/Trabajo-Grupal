@@ -2,7 +2,7 @@ import { juegos, generos } from "./array.js";
 import { Juego } from "./clases.js";
 
 let container = document.getElementById('contenedor');
-let generos = document.getElementById('genero');
+let generosOption = document.getElementById('genero');
 
     window.addEventListener('load', function () {
         // Obtener los productos almacenados en localStorage
@@ -23,9 +23,9 @@ let generos = document.getElementById('genero');
     cargarGeneros(generos);
 
     function cargarGeneros(array){
-        generos.innerHTML = "";
+        generosOption.innerHTML = "";
         for (const item of array){
-            generos.innerHTML += retornarGenerosHTML(item);
+            generosOption.innerHTML += retornarGenerosHTML(item);
         }
     }
 
@@ -136,16 +136,14 @@ document.getElementById('Formulario').addEventListener("submit", function(event)
   const imagen = document.querySelector('#imagen').value.trim(); //elimina cualquier espacio en blanco al principio y al final del valor obtenido de los campos del formulario.
   const titulo = document.querySelector('#titulo').value.trim();
   const precio = document.querySelector('#precio').value.trim();
+  const genero = document.getElementById('genero').value.trim();
 //Obtener el código del producto desde el atributo 'data-codigo-producto' del formulario.
   const codigo = parseInt(this.dataset.codigoJuego);
 
-  let juego = new Juego(imagen, titulo, codigo, precio);
+  let juego = new Juego(imagen, titulo, codigo, precio, genero);
 
   if (this.dataset.codigoJuego !== undefined){
     let indice = juegos.findIndex((j) => j.codigo === juego.codigo);
-    console.log(indice);
-    console.log(juegos);
-    console.log(juego);
     juegos[indice] = juego;
   }else{
     juego.codigo = nuevoCodigo();
