@@ -36,7 +36,7 @@ let generosOption = document.getElementById('genero');
     // Función para convertir rutas de imagen relativas
       function convertirRuta(ruta) {
         if (ruta.startsWith("./")) {
-          ruta="./../" + ruta.substring(2);
+          ruta="./../" + ruta.substring(1);
         }
         return ruta;
       }
@@ -54,12 +54,12 @@ let generosOption = document.getElementById('genero');
 
           const modifyBtn = document.createElement('button');
           modifyBtn.textContent = 'Modificar';
-          modifyBtn.className = 'modify-button';
+          modifyBtn.className = "btn btn-outline-primary";
           modifyBtn.onclick = () => modificarJuego(index);
 
           const deleteBtn = document.createElement('button');
           deleteBtn.textContent = 'Eliminar';
-          deleteBtn.className = 'delete-button';
+          deleteBtn.className = "btn btn-outline-danger"
           deleteBtn.onclick = () => eliminarJuego(index);
 
           divAction.appendChild(deleteBtn);
@@ -108,18 +108,19 @@ let generosOption = document.getElementById('genero');
     };
    
     //funcion modificar juego
-    function modificarJuego(index){
+    function modificarJuego(index) {
       let juegos = obtenerLocalStorage();
       let juego = juegos[index];
-
-      if(juego){
-       /*document.getElementById('imagen').value =  */    //actualiza los campos del formulario con los valores actuales del juego
+    
+      if (juego) {
+        document.getElementById('imagen').value = ''; // Limpiar el campo de imagen si es necesario
         document.getElementById('titulo').value = juego.titulo;
         document.getElementById('precio').value = juego.precio;
         document.getElementById('genero').value = juego.genero;
-        document.getElementById('Formulario').dataset.codigoJuego = juego.codigo; // Establecer el código del producto
+        document.getElementById('Formulario').dataset.codigoJuego = juego.codigo; // Establecer el código del juego en el formulario
       }
     }
+    
 
     function nuevoCodigo(){
       let juegos = JSON.parse(localStorage.getItem('juegos' || '[]'));
@@ -145,6 +146,7 @@ document.getElementById('Formulario').addEventListener("submit", function(event)
   if (this.dataset.codigoJuego !== undefined){
     let indice = juegos.findIndex((j) => j.codigo === juego.codigo);
     juegos[indice] = juego;
+    alert("Producto modificado correctamente");
   }else{
     juego.codigo = nuevoCodigo();
     juegos.push(juego);
